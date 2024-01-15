@@ -37,8 +37,8 @@
                     </div>
             {% when 'article_content' %}
                 <div class="flex items-center justify-center">
-                    <div class="max-w-7xl text-center">
-                        <div class="">{{article.content}}</div>
+                    <div class="max-w-7xl">
+                        {{article.content}}
                         </div>
                     </div>
             {% else %}
@@ -47,6 +47,61 @@
 </article>
 
 
+{% if blog.comments_enabled? %}
+    <div id="comments" class="my-8 flex items-center">
+        {% if article.comments_count > 0 %}
+
+        {% else %}
+            There are no comments.
+        {% endif %}
+    </div>
+
+    <div id="comment_form" class="mb-8">
+        {% form 'new_comment', article %}
+            <div class="flex-1 mx-autho items-center justify-center-max-w-4xl px-4">
+                <div class="px-1 md:flex mb-3">
+                    <div class="px-3 md:w-1/2">
+                        <label for="comment_author">Name</label>
+                        <input 
+                        type="text" 
+                        name="comment[name]" 
+                        id="comment_author" 
+                        class="w-full border py-3 px-4 mb-3 focus:outline-none"
+                        placeholder="John Doe"
+                        required>
+                    </div>
+                    <div class="px-3 md:w-1/2">
+                        <label for="comment_email">Email</label>
+                        <input 
+                        type="enail" 
+                        name="comment[email]" 
+                        id="comment_email" 
+                        class="w-full border py-3 px-4 mb-3 focus:outline-none"
+                        placeholder="@gmail.com"
+                        required>
+                    </div>
+                </div>
+                <div class="px-1 md:flex mb-3">
+                    <div class="md:w-full px-3">
+                        <label for="comment_comment">Comment</label>
+                        <textarea 
+                        type="enail" 
+                        name="comment[body]" 
+                        id="comment_comment" 
+                        class="w-full border py-3 px-4 mb-3 focus:outline-none"
+                        required></textarea>
+                    </div>
+                </div>
+                <div class="px-1 md:flex mb-3">
+                    <div class="md:w-full px-3">
+                        <input type="submit" class="w-full cursor-pointer px-4 py-2 border text-base font-medium text-white bg-gray-900 hover:bg-gray-500" value="Post Comment">
+                    </div>
+                </div>
+            </div>
+        {%endform%}  
+    </div>
+
+{% endif %}
 
 {% schema %}
 {
