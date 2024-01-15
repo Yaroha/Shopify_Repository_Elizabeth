@@ -50,7 +50,19 @@
 {% if blog.comments_enabled? %}
     <div id="comments" class="my-8 flex items-center">
         {% if article.comments_count > 0 %}
-
+            <div class="flex-1 items-center justify-center mx-auto max-w-4xl px-4">
+                <h1>See what peolple are saying</h1>
+                {% paginate article.comments by 5 %}
+                    {% for comment in article.comments %}
+                        <div class="flex-1 border my-4 px-4 py-2">
+                            <span class="comment-author">{{comment.author}}</span><span>{{comment.created_at | date: format: 'default'}}</span>
+                        </div>
+                    {% endfor %}
+                    {% if paginate.pages > 1 %}
+                        {{paginate | default_pagination}}
+                    {% endif %}
+                {% endpaginate %}
+            </div>
         {% else %}
             There are no comments.
         {% endif %}
@@ -59,6 +71,23 @@
     <div id="comment_form" class="mb-8">
         {% form 'new_comment', article %}
             <div class="flex-1 mx-autho items-center justify-center-max-w-4xl px-4">
+                {% if form.errors %}
+                        <div class="border p-5">
+                            <div class="flex flex-row items-center">
+                                <div class="text-red-500">
+                                    {% render 'icon-close' %}
+                                    Error
+                                </div>
+                            </div>
+                            <ul>
+                                {% for error in form.errors %}
+                                    <li>{{ form.errors.message[error] }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                {% elsif form.posted_successfully? %}
+                        Comment is posted successfully
+                {% endif %}
                 <div class="px-1 md:flex mb-3">
                     <div class="px-3 md:w-1/2">
                         <label for="comment_author">Name</label>
