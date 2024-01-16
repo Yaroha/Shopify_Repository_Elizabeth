@@ -13,7 +13,7 @@
 
             {% if article.excerpt.size > 0 %}
             {% else %}
-                <p>{{article.content | strip_html | truncatewords: 15 }}</p>
+                <p>{{article.content | strip_html | truncatewords: ection.settings.excerpt_lengths }}</p>
             {% endif %}
 
         </div>
@@ -35,6 +35,15 @@
                 "max": 6,
                 "label": "Posts per page",
                 "default": 3
+            },
+            {
+                "type": "range",
+                "id": "excerpt_length",
+                "step": 1,
+                "min": 1,
+                "max": 50,
+                "label": "Excerpt Length",
+                "default": 15
             }
         ]
 }
