@@ -13,7 +13,7 @@
 
             {% if article.excerpt.size > 0 %}
             {% else %}
-                <p>{{article.content | strip_html | truncatewords: section.settings.excerpt_lengths }}</p>
+                <p>{{article.content | strip_html | truncatewords: section.settings.excerpt_length }}</p>
             {% endif %}
 
         </div>
