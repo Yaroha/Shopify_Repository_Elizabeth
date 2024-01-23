@@ -13,7 +13,31 @@
                     <div class="w-full py-6 px-3">
                         {% if article.image %}
                             <a href="{{article.url}}"></a>
-                                <img class="w-full h-80 object-cover" src="{{ article.image | img_url: 'medium' }}" alt="{{ article.image.alt }}">
+                                {% comment %} <img class="w-full h-80 object-cover" src="{{ article.image | img_url: 'medium' }}" alt="{{ article.image.alt }}"> {% endcomment %}
+
+                                <img
+                                srcset="
+                                  {%- if article.image.width >= 165 -%}{{ article.image | image_url: width: 165 }} 165w,{%- endif -%}
+                                  {%- if article.imagewidth >= 330 -%}{{ article.image | image_url: width: 330 }} 330w,{%- endif -%}
+                                  {%- if article.image.width >= 535 -%}{{ article.image | image_url: width: 535 }} 535w,{%- endif -%}
+                                  {%- if article.image.width >= 750 -%}{{ article.image | image_url: width: 750 }} 750w,{%- endif -%}
+                                  {%- if article.image.width >= 1000 -%}{{ article.image | image_url: width: 1000 }} 1000w,{%- endif -%}
+                                  {%- if article.image.width >= 1500 -%}{{ article.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                                  {%- if article.image.width >= 3000 -%}{{ article.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+                                  {{ article.image | image_url }} {{ article.image.width }}w
+                                "
+                                src="{{ card_collection.featured_image | image_url: width: 1500 }}"
+                                sizes="
+                                  (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: columns }}px,
+                                  (min-width: 750px) {% if columns > 1 %}calc((100vw - 10rem) / 2){% else %}calc(100vw - 10rem){% endif %},
+                                  calc(100vw - 3rem)
+                                "
+                                alt=""
+                                height="{{ card_collection.featured_image.height }}"
+                                width="{{ card_collection.featured_image.width }}"
+                                loading="lazy"
+                                class="motion-reduce"
+                              >
                             </a>
                         {% else %}
                             {{ 'image' | placeholder_svg_tag: 'w-full h-80 object-cover' }}
